@@ -13,7 +13,7 @@ namespace Backend.Controllers
     {
        [HttpGet]
        [Route("getDepartments")]
-       public List<DepartmentModel> getDepartments(Guid TypeID,String Institude)
+       public List<DepartmentModel> getDepartments(String TypeID,String Institude)
         {
             Database database = new Database();
             String sql = $@"select ID,TypeID,Institude,Department,Name,Image from Catalog
