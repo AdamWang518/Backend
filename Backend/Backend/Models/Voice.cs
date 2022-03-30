@@ -5,11 +5,11 @@ using System.Web;
 
 namespace Backend.Models
 {
-    public class VoiceModel
+    public class BuildingModel
     {
-        public Guid BuildingID;
+        public int Similarity = 0;
         public int Floor;
         public string Department;
-        public string Name;
+        public string BuildingName;
     }
 }

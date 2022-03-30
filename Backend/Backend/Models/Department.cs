@@ -12,6 +12,6 @@ namespace Backend.Models
         public string Institude;
         public string Department;
         public string Name;
-        public string Image;
+      
     }
 }
