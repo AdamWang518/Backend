@@ -46,35 +46,40 @@ namespace Backend.Controllers
         [Route("getVoice")]
         public List<BuildingModel> getVoice(String text)
         {
-            
-            Database database = new Database();
-            String sql = $@"select Catalog.Department,Catalog.Floor,Building.Name as BuildingName from Catalog JOIN Building ON Catalog.BuildingID = Building.ID
-                           where Catalog.TypeID='180C275A-0AA8-4C47-B940-8E675FBB7C8B'";
-            List<BuildingModel> list =database.Query<BuildingModel>(sql);
-            char[] textArray = text.ToCharArray();
-            Dictionary<String, int> dict = new Dictionary<string, int>();
-            foreach(BuildingModel model in list)
+            if(!String.IsNullOrWhiteSpace(text))
             {
-                foreach(char word in textArray)
+                Database database = new Database();
+                String sql = $@"select Catalog.Department,Catalog.Floor,Building.Name as BuildingName from Catalog JOIN Building ON Catalog.BuildingID = Building.ID
+                           where Catalog.TypeID='180C275A-0AA8-4C47-B940-8E675FBB7C8B'";
+                List<BuildingModel> list = database.Query<BuildingModel>(sql);
+                char[] textArray = text.ToCharArray();
+                Dictionary<String, int> dict = new Dictionary<string, int>();
+                foreach (BuildingModel model in list)
                 {
-                    if(model.Department.Contains(word))
+                    foreach (char word in textArray)
                     {
-                        model.Similarity++;
+                        if (model.Department.Contains(word))
+                        {
+                            model.Similarity++;
+                        }
+                        //if(dict.ContainsKey())
+                        //{
+                        //    dict[""] +=1
+                        //} else
+                        //{
+                        //    dict.Add("", 1);
+                        //}
                     }
-                    //if(dict.ContainsKey())
-                    //{
-                    //    dict[""] +=1
-                    //} else
-                    //{
-                    //    dict.Add("", 1);
-                    //}
                 }
+                list = list.Where(x => x.Similarity != 0).OrderByDescending(x => x.Similarity).ToList();
+                var maxTimes = list[0].Similarity;
+                list = list.Where(x => x.Similarity == maxTimes).OrderBy(x => x.Department.Length).ToList();
+                return list;
+            } else
+            {
+                return new List<BuildingModel>();
             }
-            list = list.Where(x=>x.Similarity!=0).OrderByDescending(x => x.Similarity).ToList();
-            var maxTimes = list[0].Similarity;
-            list = list.Where(x => x.Similarity == maxTimes).OrderBy(x=>x.Department.Length).ToList();
-            return list;
-        }//未完成
+        }
         
     }
 }
