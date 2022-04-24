@@ -12,7 +12,8 @@ namespace Backend.Utility
         SqlConnection sqlConnection;
         public Database()
         {
-            String connectionString = @"Persist Security Info=False;Integrated Security=true; Initial Catalog = Final_Project; Server = localhost";
+            String connectionString = @"Persist Security Info =False; User ID =dodoga518; Password=20010518; Initial Catalog=Final_Project; Server=54.95.149.246";
+
             this.sqlConnection = new SqlConnection(connectionString);
             this.sqlConnection.Open();
         }

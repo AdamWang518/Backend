@@ -17,7 +17,7 @@ namespace Backend.Controllers
         {
             Database database = new Database();
             String sql = $@"select ID,TypeID,Institude,Department,Name from Catalog
-                           where Institude = '{Institude}' AND TypeID='{TypeID}'";
+                           where Institude = N'{Institude}' AND TypeID='{TypeID}'";
            return database.Query<DepartmentModel>(sql);
         }
         [HttpGet]
@@ -27,7 +27,7 @@ namespace Backend.Controllers
             Database database = new Database();
             
             String sql = $@"select ID,TypeID,[Option],Department,Name from Catalog
-                           where Department = '{Department}' AND TypeID='{TypeID}'";
+                           where Department = N'{Department}' AND TypeID='{TypeID}'";
             return database.Query<OptionModel>(sql);
         }
         
@@ -72,14 +72,31 @@ namespace Backend.Controllers
                     }
                 }
                 list = list.Where(x => x.Similarity != 0).OrderByDescending(x => x.Similarity).ToList();
-                var maxTimes = list[0].Similarity;
-                list = list.Where(x => x.Similarity == maxTimes).OrderBy(x => x.Department.Length).ToList();
+                if(list.Count>0)
+                {
+                    var maxTimes = list[0].Similarity;
+                    list = list.Where(x => x.Similarity == maxTimes).OrderBy(x => x.Department.Length).ToList();
+                }
+                else
+                {
+                    list=new List<BuildingModel>();
+                }
                 return list;
             } else
             {
                 return new List<BuildingModel>();
             }
         }
-        
+
+
+        [HttpGet]
+        [Route("Test")]
+        public String Test()
+        {
+            return "Hello World API";
+        }
+
+
     }
+
 }
