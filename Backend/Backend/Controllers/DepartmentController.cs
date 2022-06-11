@@ -6,6 +6,8 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.IO;
+using Newtonsoft.Json;
 
 namespace Backend.Controllers
 {
@@ -95,8 +97,26 @@ namespace Backend.Controllers
         {
             return "Hello World API";
         }
-
-
+        [HttpGet]
+        [Route("AkinatorRequest")]
+        public Node AkinatorRequest()
+        {
+            StreamReader sr = new StreamReader("D:\\Vscode\\Python\\Akinator\\data.json");
+            String json = sr.ReadToEnd();
+            Node akinatorNode=JsonConvert.DeserializeObject<Node>(json);
+            return akinatorNode;
+        }
+        [HttpPost]
+        [Route("AkinatorResponse")]
+        public bool AkinatorResponse(Node response)
+        {
+            String json = JsonConvert.SerializeObject(response);
+            StreamWriter outputFile = new StreamWriter("D:\\Vscode\\Python\\Akinator\\data.json");
+            outputFile.WriteLine(json);
+            outputFile.Flush();
+            outputFile.Close();
+            return true;
+        }
     }
 
 }

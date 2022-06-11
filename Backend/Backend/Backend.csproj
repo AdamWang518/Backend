@@ -94,6 +94,7 @@
     </Compile>
     <Compile Include="Models\Article.cs" />
     <Compile Include="Models\Department.cs" />
+    <Compile Include="Models\Node.cs" />
     <Compile Include="Models\Option.cs" />
     <Compile Include="Models\Voice.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
