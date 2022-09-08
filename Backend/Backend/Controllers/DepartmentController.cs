@@ -99,23 +99,30 @@ namespace Backend.Controllers
         }
         [HttpGet]
         [Route("AkinatorRequest")]
-        public Node AkinatorRequest()
+        public Response AkinatorRequest()
         {
-            StreamReader sr = new StreamReader("D:\\Vscode\\Python\\Akinator\\data.json");
+            StreamReader sr = new StreamReader("C:\\Users\\Administrator\\Desktop\\Tree\\data.json");
+            //StreamReader sr = new StreamReader("D:\\Vscode\\Python\\Akinator\\data.json");
             String json = sr.ReadToEnd();
             Node akinatorNode=JsonConvert.DeserializeObject<Node>(json);
-            return akinatorNode;
+            if (akinatorNode == null)
+            {
+                akinatorNode = new Node("資訊工程學系");
+            }
+            sr.Close();
+            return new Response(true,akinatorNode);
         }
         [HttpPost]
         [Route("AkinatorResponse")]
-        public bool AkinatorResponse(Node response)
+        public Response AkinatorResponse(Node response)
         {
             String json = JsonConvert.SerializeObject(response);
-            StreamWriter outputFile = new StreamWriter("D:\\Vscode\\Python\\Akinator\\data.json");
+            StreamWriter outputFile = new StreamWriter("C:\\Users\\Administrator\\Desktop\\Tree\\data.json");
+            //StreamWriter outputFile = new StreamWriter("D:\\Vscode\\Python\\Akinator\\data.json");
             outputFile.WriteLine(json);
             outputFile.Flush();
             outputFile.Close();
-            return true;
+            return new Response();
         }
     }
 

@@ -21,6 +21,7 @@ namespace Backend.Utility
         public List<T> Query<T>(String sql)
         {
            return this.sqlConnection.Query<T>(sql).ToList();
+           //用Dapper來進行連線，利用ORM來自動對應資料，然後List用泛型
         }
 
         public int NoQuery(String sql)
