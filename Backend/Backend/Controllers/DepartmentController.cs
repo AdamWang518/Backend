@@ -20,7 +20,9 @@ namespace Backend.Controllers
             Database database = new Database();
             String sql = $@"select ID,TypeID,Institude,Department,Name from Catalog
                            where Institude = N'{Institude}' AND TypeID='{TypeID}'";
-           return database.Query<DepartmentModel>(sql);
+            List<DepartmentModel> list = database.Query<DepartmentModel>(sql);
+            database.sqlConnection.Close();
+            return list;
         }
         [HttpGet]
         [Route("getOption")]
@@ -30,7 +32,9 @@ namespace Backend.Controllers
             
             String sql = $@"select ID,TypeID,[Option],Department,Name from Catalog
                            where Department = N'{Department}' AND TypeID='{TypeID}'";
-            return database.Query<OptionModel>(sql);
+            List<OptionModel> list = database.Query<OptionModel>(sql);
+            database.sqlConnection.Close();
+            return list;
         }
         
         [HttpGet]
@@ -40,8 +44,8 @@ namespace Backend.Controllers
             Database database = new Database();
             String sql = $@"select * from Article
                            where CatalogID = '{CatalogID}'";
-
             ArticleModel model = database.Query<ArticleModel>(sql)[0];
+            database.sqlConnection.Close();
             return model;
         }
         [HttpGet]
@@ -54,6 +58,7 @@ namespace Backend.Controllers
                 String sql = $@"select Catalog.Department,Catalog.Floor,Building.Name as BuildingName from Catalog JOIN Building ON Catalog.BuildingID = Building.ID
                            where Catalog.TypeID='180C275A-0AA8-4C47-B940-8E675FBB7C8B'";
                 List<BuildingModel> list = database.Query<BuildingModel>(sql);
+                database.sqlConnection.Close();
                 char[] textArray = text.ToCharArray();
                 Dictionary<String, int> dict = new Dictionary<string, int>();
                 foreach (BuildingModel model in list)

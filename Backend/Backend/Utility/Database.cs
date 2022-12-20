@@ -9,11 +9,11 @@ namespace Backend.Utility
 {
     public class Database
     {
-        SqlConnection sqlConnection;
+        public SqlConnection sqlConnection;
         public Database()
         {
             String connectionString = @"Persist Security Info =False; User ID =dodoga518; Password=20010518; Initial Catalog=Final_Project; Server=54.95.149.246";
-
+            //String connectionString = @"Persist Security Info=False;Trusted_Connection=True; database = Final_Project; server = localhost\MSSQLSERVER01";
             this.sqlConnection = new SqlConnection(connectionString);
             this.sqlConnection.Open();
         }
@@ -21,7 +21,7 @@ namespace Backend.Utility
         public List<T> Query<T>(String sql)
         {
            return this.sqlConnection.Query<T>(sql).ToList();
-           //用Dapper來進行連線，利用ORM來自動對應資料，然後List用泛型
+           //用Dapper來進行連線，利用ORM來自動對應資料，然後List用泛型來處理
         }
 
         public int NoQuery(String sql)
